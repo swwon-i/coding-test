@@ -2,20 +2,24 @@ from collections import defaultdict
 def solution(want, number, discount):
     answer = 0
     n = len(want)
-    goal = { want[i] : number[i] for i in range(n)}
     m = len(discount)
+    goal = { want[i] : number[i] for i in range(n)}
     
-    for i in range(m):
-        ans = defaultdict(int)
-        for j in range(i, i+10):
-            if j < m:
-                ans[discount[j]] += 1
-            else:
-                break
+    day = 0
+    
+    window = defaultdict(int)
+    for j in range(10):              
+        window[discount[j]] += 1
+    
+    for i in range(m - 9):
+        if i > 0:                     
+            window[discount[i - 1]] -= 1
+            window[discount[i + 9]] += 1
+        
         for obj, num in goal.items():
-            if ans.get(obj,0) != num:
+            if window.get(obj, 0) != num:
                 break
         else:
             answer += 1
-            
+    
     return answer

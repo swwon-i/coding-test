@@ -1,22 +1,15 @@
 from collections import deque
-import math
 
 def solution(progresses, speeds):
+    q = deque(zip(progresses, speeds))
     answer = []
-    n = len(progresses)
-    idx = 0
-    
-    while idx <= n-1:
-        ans = 0
-        days = math.ceil((100 - progresses[idx]) / speeds[idx])
-        for i in range(idx, n):
-            progresses[i] += speeds[i]*days
-        while True:
-            if idx <= n-1 and progresses[idx] >= 100:
-                idx += 1
-                ans += 1
-            else:
-                answer.append(ans)
-                break
-        
+    while q:
+        cnt = 0
+        p, s = q.popleft()
+        days = -(-((100 - p)) // s)  # math.ceil 대신 정수 나눗셈
+        cnt += 1
+        while q and q[0][0] + q[0][1]*days >= 100:
+            q.popleft()
+            cnt += 1
+        answer.append(cnt)
     return answer

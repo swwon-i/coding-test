@@ -4,16 +4,15 @@ def sol(L, maps):
     x,y = L[0], L[1]
     n = len(maps)
     m = len(maps[0])
-    visited = set((x,y))
+    visited = set([(x,y)])
     S_time = 0
     E_time = 0
-    que = deque()
-    que.append([x,y,0])
+    que = deque([(x,y,0)])
     while que:
         x,y,t = que.popleft()
         
         for x_, y_ in [(x-1,y), (x+1,y), (x,y-1),(x,y+1)]:
-            if 0 <= x_ < n and 0 <= y_ < m and maps[x][y] != 'X':
+            if 0 <= x_ < n and 0 <= y_ < m and maps[x_][y_] != 'X':
                 if (x_,y_) not in visited:
                     visited.add((x_,y_))
                     que.append((x_,y_,t+1))
